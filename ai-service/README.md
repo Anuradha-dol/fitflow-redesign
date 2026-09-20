@@ -1,9 +1,36 @@
-# FitFlow AI Service
+# FitFlow Recommendation Service
 
-Selected AI service: **FastAPI (Python)**.
+Selected recommendation service: **FastAPI (Python)**.
 
-The planned service provides independently scalable recommendation and inference endpoints. In the final architecture, the NestJS API should send only the minimized feature set required for recommendations.
+This service provides a working recommendation endpoint for the FitFlow prototype. It uses validated input and deterministic rules to return a weekly training structure, focus areas, recovery guidance and safety notes.
 
-This starter exposes:
-- `GET /health`
-- `POST /recommendation` — demonstration response only; no trained model is included in this lab starter
+## Run
+
+```bash
+python -m venv .venv
+.venv\Scripts\activate
+pip install -r requirements.txt
+uvicorn main:app --reload --port 8001
+```
+
+## Routes
+
+| Method | Route | Purpose |
+|---|---|---|
+| GET | `/health` | Service health check |
+| POST | `/recommendation` | Generate a weekly recommendation |
+
+## Example Request
+
+```json
+{
+  "goal": "fat-loss",
+  "experience_level": "intermediate",
+  "available_days": 4,
+  "session_minutes": 40,
+  "equipment": ["bodyweight", "resistance bands"],
+  "limitations": []
+}
+```
+
+The service intentionally avoids claiming a trained model is included. A future production version can replace the rules with a trained recommender while keeping the same API contract.

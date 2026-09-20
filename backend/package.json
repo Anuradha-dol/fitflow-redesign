@@ -2,7 +2,7 @@
   "name": "fitflow-backend",
   "version": "0.1.0",
   "private": true,
-  "description": "Minimal NestJS starter for the FitFlow redesign lab repository",
+  "description": "NestJS API prototype for the FitFlow redesign lab repository",
   "scripts": {
     "start": "nest start",
     "start:dev": "nest start --watch",

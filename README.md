@@ -1,79 +1,119 @@
 # FitFlow Redesign
 
-FitFlow Redesign is a high-level redesign proposal for a cross-platform fitness application. The proposed solution supports workout planning, nutrition tracking, progress monitoring, social features, real-time updates, and personalized AI-assisted recommendations.
+FitFlow Redesign is the Lab Exercise 05 technology evaluation and prototype for a cross-platform fitness application. The repository keeps the selected architecture from the document and includes working sample code for the main client, API and recommendation-service workflows.
 
-> This repository is for **IT3060 Human Computer Interaction – Lab Exercise 05**. It contains the technology evaluation, architecture documentation, and small starter-code placeholders for the selected technologies. It is **not intended to be a complete production application** at this stage.
+The prototype covers:
 
-## Recommended Technology Stack
+- dashboard summary for workouts, calories, water and streaks
+- weekly workout planning
+- local nutrition logging in the Flutter client
+- NestJS REST endpoints for dashboard, workouts, nutrition, progress, social feed and recommendations
+- FastAPI recommendation endpoint with input validation and rules-based weekly plan output
+- documentation for the technology comparison, architecture decision and stack summary
+
+## Selected Technology Stack
 
 | Layer | Selected Technology | Purpose |
 |---|---|---|
-| Frontend | Flutter (Dart) | Cross-platform mobile/web user interface |
-| Core API | NestJS (TypeScript) | Business logic, validation, RBAC, REST/WebSocket APIs |
-| AI Service | FastAPI (Python) | Personalized recommendation/inference endpoints |
-| Database | Managed PostgreSQL | Relational system of record and analytics |
-| Authentication | Supabase Auth | JWT-based authentication, MFA/social login support |
-| Cache | Redis | Cache hot data and short-lived results |
-| Real-time | WebSockets | Live updates and notifications |
-| Storage | Object Storage | Profile and social media assets |
+| Frontend | Flutter (Dart) | Cross-platform mobile and web user interface |
+| Core API | NestJS (TypeScript) | Business workflows, validation, RBAC-ready API layer and real-time-ready service boundary |
+| Recommendation Service | FastAPI (Python) | Independently scalable recommendation/inference endpoint |
+| Database | Managed PostgreSQL | Relational source of truth for users, workouts, plans, meals, goals and social data |
+| Authentication | Supabase Auth | JWT-based authentication with MFA/social-login support and PostgreSQL RLS integration |
+| Cache | Redis | Cache hot data and short-lived recommendation results |
+| Real-time | WebSockets | Live progress, workout and social updates |
+| Storage | Object Storage | Profile images and social media assets through signed URLs |
 
 ## Repository Structure
 
 ```text
 fitflow-redesign/
-├── .github/
-│   └── workflows/
-│       └── ci.yml
-├── frontend/
-│   ├── lib/
-│   │   └── main.dart
-│   ├── pubspec.yaml
-│   └── README.md
-├── backend/
-│   ├── src/
-│   │   ├── app.module.ts
-│   │   ├── health.controller.ts
-│   │   └── main.ts
-│   ├── package.json
-│   ├── tsconfig.json
-│   └── README.md
-├── ai-service/
-│   ├── main.py
-│   ├── requirements.txt
-│   └── README.md
-├── docs/
-│   ├── architecture-diagram.png
-│   ├── architecture-decision-record.md
-│   ├── comparison-matrix.md
-│   └── tech-stack-summary.md
-├── .gitignore
-└── README.md
+|-- .github/
+|   `-- workflows/
+|       `-- ci.yml
+|-- frontend/
+|   |-- lib/
+|   |   `-- main.dart
+|   |-- pubspec.yaml
+|   `-- README.md
+|-- backend/
+|   |-- src/
+|   |   |-- app.module.ts
+|   |   |-- fitflow.controller.ts
+|   |   |-- fitflow.service.ts
+|   |   |-- health.controller.ts
+|   |   `-- main.ts
+|   |-- package.json
+|   |-- tsconfig.json
+|   `-- README.md
+|-- ai-service/
+|   |-- main.py
+|   |-- requirements.txt
+|   `-- README.md
+|-- docs/
+|   |-- architecture-diagram.png
+|   |-- architecture-decision-record.md
+|   |-- comparison-matrix.md
+|   `-- tech-stack-summary.md
+|-- .gitignore
+`-- README.md
 ```
 
-## Starter Setup
+## Run Locally
 
 ### Frontend
-The `frontend/` directory contains a minimal Flutter starter screen only. For a full Flutter project, install Flutter and run `flutter create .` inside the folder, then keep or merge the supplied `lib/main.dart`.
+
+```bash
+cd frontend
+flutter pub get
+flutter run -d chrome
+```
 
 ### Backend
-The `backend/` directory contains a minimal NestJS starter API with a `/health` endpoint.
 
 ```bash
 cd backend
 npm install
+npm run build
 npm run start:dev
 ```
 
-### AI Service
-The `ai-service/` directory contains a minimal FastAPI starter with `/health` and `/recommendation` endpoints.
+Useful backend routes:
+
+- `GET /health`
+- `GET /overview`
+- `GET /workouts`
+- `GET /nutrition`
+- `POST /nutrition/meals`
+- `POST /recommendations`
+- `GET /progress`
+- `GET /social-feed`
+
+### Recommendation Service
 
 ```bash
 cd ai-service
 python -m venv .venv
-# Windows: .venv\Scripts\activate
-# macOS/Linux: source .venv/bin/activate
+.venv\Scripts\activate
 pip install -r requirements.txt
 uvicorn main:app --reload --port 8001
+```
+
+Useful service routes:
+
+- `GET /health`
+- `POST /recommendation`
+
+Example recommendation request:
+
+```json
+{
+  "goal": "strength",
+  "experience_level": "beginner",
+  "available_days": 4,
+  "session_minutes": 45,
+  "equipment": ["bodyweight", "dumbbells"]
+}
 ```
 
 ## Documentation
@@ -85,8 +125,8 @@ uvicorn main:app --reload --port 8001
 
 ## Security Note
 
-Do **not** commit API keys, database credentials, JWT signing secrets, Supabase service keys, or other private values. Store them in local environment files and GitHub repository/environment secrets.
+Do not commit API keys, database credentials, JWT signing secrets, Supabase service keys or other private values. Keep them in local environment files and GitHub repository/environment secrets.
 
 ## Current Status
 
-This repository currently represents the **architecture and technology-evaluation stage**. The included code is intentionally small and demonstrates where Flutter, NestJS, and FastAPI implementation would be placed as development continues.
+This repository is a working lab prototype, not a production release. PostgreSQL, Supabase Auth, Redis, object storage and WebSockets are documented as the selected architecture and are represented by clean service boundaries and sample data until those external services are provisioned.

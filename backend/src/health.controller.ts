@@ -7,6 +7,14 @@ export class HealthController {
     return {
       service: 'fitflow-core-api',
       status: 'ok',
+      uptimeSeconds: Math.round(process.uptime()),
+      features: [
+        'dashboard overview',
+        'workout planning',
+        'nutrition tracking',
+        'progress summary',
+        'recommendations',
+      ],
     };
   }
 }

@@ -1,5 +1,5 @@
 name: fitflow_frontend
-description: Minimal Flutter starter for the FitFlow redesign lab repository.
+description: Flutter prototype for the FitFlow redesign lab repository.
 publish_to: 'none'
 version: 0.1.0+1
 
@@ -7,6 +7,7 @@ environment:
   sdk: '>=3.3.0 <4.0.0'
 
 dependencies:
+  cupertino_icons: ^1.0.8
   flutter:
     sdk: flutter
 
