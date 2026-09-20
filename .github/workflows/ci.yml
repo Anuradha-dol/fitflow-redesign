@@ -1,0 +1,27 @@
+name: Repository Structure Check
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate-structure:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Verify required lab files
+        run: |
+          test -f README.md
+          test -f .gitignore
+          test -f docs/architecture-diagram.png
+          test -f docs/architecture-decision-record.md
+          test -f docs/comparison-matrix.md
+          test -f docs/tech-stack-summary.md
+          test -d frontend
+          test -d backend
+          test -d ai-service
+          echo "FitFlow repository structure is valid."
